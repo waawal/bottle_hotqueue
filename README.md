@@ -11,7 +11,7 @@ From source:
     $ sudo python setup.py install
 
 ## Getting Started
-
+    import bottle
     from bottle_hotqueue import Plugin
 
 
