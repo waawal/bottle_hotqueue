@@ -11,7 +11,7 @@ class HotQueuePlugin(object):
     api = 2
 
     def __init__(self, host='localhost', port=6379, database=0,
-                 keyword='queue', asjson=True, prefix="bottle"):
+                 keyword='queue', asjson=True, prefix="hotqueue"):
         self.host = host
         self.port = port
         self.database = database
@@ -31,9 +31,8 @@ class HotQueuePlugin(object):
                         "conflicting settings (non-unique keyword).")
 
     def apply(self, callback, route):
-        print "Plugin called!!!"
         conf = route.config.get(self.keyword) or {}
-        keyword = conf.get('key')
+        keyword = conf.get('queue')
         args = inspect.getargspec(callback)[0]
         if keyword not in args or self.keyword in route.skiplist:
             return callback

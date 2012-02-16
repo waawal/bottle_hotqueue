@@ -9,7 +9,7 @@ except ImportError:
 
 setup(
     name = 'bottle_hotqueue',
-    version = '0.1.1',
+    version = '0.1.2',
     url = 'https://github.com/waawal/bottle_hotqueue',
     description = 'FIFO Queue for Bottle built upon redis',
     author = 'Daniel Waardal',
