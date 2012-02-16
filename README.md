@@ -1,6 +1,6 @@
 # bottle_hotqueue
 
-_FIFO messagequeue_ plugin for _bottle.py_ based on _HotQueue_
+_FIFO message queue_ plugin for _bottle.py_ based on _HotQueue_
 
 _[bottle.py](http://bottlepy.org) is a fast and simple micro-framework for python web-applications._
 
