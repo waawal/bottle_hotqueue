@@ -1,14 +1,14 @@
 import inspect
 try:
     import simplejson as json
-    jsonavailable = True
 except ImportError:
-    jsonavailable = False
+    import json
 import hotqueue
 
 
 class HotQueuePlugin(object):
     name = 'hotqueue'
+    api = 2
 
     def __init__(self, host='localhost', port=6379, database=0,
                  keyword='queue', asjson=True, prefix="bottle"):
@@ -16,11 +16,11 @@ class HotQueuePlugin(object):
         self.port = port
         self.database = database
         self.keyword = keyword
-        if asjson and jsonavailable:
+        if asjson:
             self.asjson = json
         else:
             self.asjson = None
-        hotqueue.key_for_name = lambda x: prefix + ":" + x
+        hotqueue.key_for_name = lambda x: ''.join([prefix, ":", x])
 
     def setup(self, app):
         for other in app.plugins:
@@ -30,17 +30,20 @@ class HotQueuePlugin(object):
                 raise PluginError("Found another hotqueue plugin with "\
                         "conflicting settings (non-unique keyword).")
 
-        self.queue = hotqueue.HotQueue(self.keyword, host=self.host,
-                                       port=self.port, db=self.database,
-                                       serializer=self.asjson)
-
-    def apply(self, callback, context):
-        args = inspect.getargspec(context['callback'])[0]
-        if self.keyword not in args:
+    def apply(self, callback, route):
+        print "Plugin called!!!"
+        conf = route.config.get(self.keyword) or {}
+        keyword = conf.get('key')
+        args = inspect.getargspec(callback)[0]
+        if keyword not in args or self.keyword in route.skiplist:
             return callback
 
         def wrapper(*args, **kwargs):
-            kwargs[self.keyword] = self.queue
+            queue = hotqueue.HotQueue(keyword, host=self.host,
+                                       port=self.port, db=self.database,
+                                       serializer=self.asjson)
+
+            kwargs[keyword] = queue
             rv = callback(*args, **kwargs)
             return rv
         return wrapper
