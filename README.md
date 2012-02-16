@@ -21,26 +21,48 @@ from bottle_hotqueue import HotQueuePlugin
 
 
 app = bottle.Bottle()
-hotqueue = HotQueuePlugin(keyword="queue", prefix="bottle")
+hotqueue = HotQueuePlugin(keyword="myhotqueue")
 app.install(hotqueue)
 
 
-@app.get('/add/:value', queue={'key': 'testkey'})
-def send_message(value, testkey):
-    """ This will put an item in the queue bottle:testkey.
+@app.get('/add/:value', myhotqueue={'queue': 'myqueue'})
+def send_message(value, myqueue):
+    """ This will put an item in the queue hotqueue:myqueue.
     """
-    return testkey.put(value)
+    return myqueue.put(value)
 
 
-@app.get('/', queue={'key': 'testkey'})
-def get_message(testkey):
-    """ We will now try to get a item from bottle:testkey.
-        if the queue is empy, we instead raise a 404.
+@app.get('/', myhotqueue={'queue': 'myqueue'})
+def get_message(myqueue):
+    """ We will now try to get a item from hotqueue:testkey.
+        if the queue is empty, we instead raise a 404.
     """
-    result = testkey.get()
+    result = myqueue.get()
     if not result:
         raise bottle.HTTPError(404, "Queue is Empty")
     return result
 
 bottle.run(app, host='', port=8080)
 ```
+
+### Writing a simple consumer
+
+```python
+import json
+from hotqueue import HotQueue
+
+
+queue = HotQueue("myqueue", host="localhost", serializer=json)
+
+for item in queue.consume():
+    print item
+
+```
+More on HotQueue: http://richardhenry.github.com/hotqueue/
+
+### License
+MIT
+
+### Github links
+* https://github.com/defnull/bottle
+* https://github.com/richardhenry/hotqueue
