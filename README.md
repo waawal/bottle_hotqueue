@@ -15,6 +15,9 @@ Dependencies:
     bottle, hotqueue
 
 ## Getting Started
+
+### Importing and using the plugin in Bottle
+
 ```python
 import bottle
 from bottle_hotqueue import HotQueuePlugin
@@ -34,7 +37,7 @@ def send_message(value, myqueue):
 
 @app.get('/', myhotqueue={'queue': 'myqueue'})
 def get_message(myqueue):
-    """ We will now try to get a item from hotqueue:testkey.
+    """ We will now try to get a item from hotqueue:myqueue.
         if the queue is empty, we instead raise a 404.
     """
     result = myqueue.get()
