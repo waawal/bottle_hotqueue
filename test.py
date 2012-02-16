@@ -4,7 +4,7 @@ import bottle
 import hotqueue
 from bottle_hotqueue import Plugin
 
-class RedisTest(unittest.TestCase):
+class HotQueueTest(unittest.TestCase):
     def setUp(self):
         self.app = bottle.Bottle(catchall=False)
 
