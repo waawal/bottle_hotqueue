@@ -26,7 +26,7 @@ class RedisTest(unittest.TestCase):
 
         @self.app.get('/2')
         def test(**kw):
-            self.assertFalse('queue' in kw)
+            self.assertFalse('myqueue' in kw)
         self.app({'PATH_INFO':'/2', 'REQUEST_METHOD':'GET'}, lambda x, y: None)
         
 if __name__ == '__main__':
