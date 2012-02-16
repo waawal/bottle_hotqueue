@@ -1,16 +1,20 @@
 # bottle_hotqueue
 
-FIFO messagequeue plugin for Bottle based on _HotQueue_
+_FIFO messagequeue_ plugin for _bottle.py_ based on _HotQueue_
+
+_[bottle.py](http://bottlepy.org) is a fast and simple micro-framework for python web-applications._
+
+_[HotQueue](http://richardhenry.github.com/hotqueue/) is a Python library that allows you to use Redis as a message queue within your Python programs._
 
 ## Installation
 
     $ sudo pip install bottle_hotqueue
 
-From source:
+### From source:
 
     $ sudo python setup.py install
 
-Dependencies:
+### Dependencies:
 
     bottle, hotqueue
 
@@ -46,6 +50,12 @@ def get_message(myqueue):
     return result
 
 bottle.run(app, host='', port=8080)
+```
+
+The plugin will use json (or simplejson if available) as the standard serializer. This behaviour can be reverted by passing asjson=False when instantiating the plugin. It will then conform to the standard HotQueue way of serializing objects by using pickle (or cpickle if available).
+
+```python
+hotqueue = HotQueuePlugin(keyword="myhotqueue", asjson=False)
 ```
 
 ### Writing a simple consumer
