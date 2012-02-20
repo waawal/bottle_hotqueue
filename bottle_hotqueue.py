@@ -32,9 +32,12 @@ class HotQueuePlugin(object):
 
     def apply(self, callback, route):
         conf = route.config.get(self.keyword) or {}
-        keyword = conf.get('queue')
+        if not conf or not 'queue' in conf:
+            return callback
+        else:
+            keyword = conf['queue']
         args = inspect.getargspec(callback)[0]
-        if keyword not in args or self.keyword in route.skiplist:
+        if keyword not in args:
             return callback
 
         def wrapper(*args, **kwargs):

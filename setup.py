@@ -8,7 +8,7 @@ except ImportError:
     from distutils.command.build_py import build_py
 
 setup(
-    name = 'bottle_hotqueue',
+    name = 'bottle-hotqueue',
     version = '0.1.2',
     url = 'https://github.com/waawal/bottle_hotqueue',
     description = 'FIFO Queue for Bottle built upon redis',
