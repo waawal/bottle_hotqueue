@@ -8,7 +8,7 @@ _[HotQueue](http://richardhenry.github.com/hotqueue/) is a Python library that a
 
 ## Installation
 
-    $ sudo pip install bottle_hotqueue
+    $ sudo pip install bottle-hotqueue
 
 ### From source:
 
