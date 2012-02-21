@@ -30,26 +30,26 @@ class HotQueuePlugin(object):
             if other.keyword == self.keyword:
                 raise PluginError("Found another hotqueue plugin with "\
                         "conflicting settings (non-unique keyword).")
-            self.redispool = redis.ConnectionPool(host=self.host,
+        self.redispool = redis.ConnectionPool(host=self.host,
                                                port=self.port, db=self.database)
 
 
     def apply(self, callback, route):
-        conf = route.config.get(self.keyword) or {}
+        conf = route.config.get(self.keyword, {})
         if not 'queue' in conf:
             keyword = self.keyword
         else:
             keyword = conf['queue']
-        args = inspect.getargspec(callback)[0]
+        args = inspect.getargspec(route.callback)[0]
         if keyword not in args:
-            return callback
+            return route.callback
 
-        @wraps(callback)
+        @wraps(route.callback)
         def wrapper(*args, **kwargs):
             queue = hotqueue.HotQueue(keyword, serializer=self.asjson,
                                       connection_pool=self.redispool)
             kwargs[keyword] = queue
-            return callback(*args, **kwargs)
+            return route.callback(*args, **kwargs)
         return wrapper
 
 Plugin = HotQueuePlugin
