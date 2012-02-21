@@ -4,7 +4,7 @@ try:
 except ImportError:
     import json
 import hotqueue
-
+import redis
 
 class HotQueuePlugin(object):
     name = 'hotqueue'
@@ -12,15 +12,15 @@ class HotQueuePlugin(object):
 
     def __init__(self, host='localhost', port=6379, database=0,
                  keyword='queue', asjson=True, prefix="hotqueue"):
-        self.host = host
-        self.port = port
-        self.database = database
         self.keyword = keyword
         if asjson:
             self.asjson = json
         else:
             self.asjson = None
         hotqueue.key_for_name = lambda x: ''.join([prefix, ":", x])
+        # Set up redis connection pool
+        self.redispool = redis.ConnectionPool(host=host,
+                                               port=port, db=database)
 
     def setup(self, app):
         for other in app.plugins:
@@ -41,9 +41,8 @@ class HotQueuePlugin(object):
             return callback
 
         def wrapper(*args, **kwargs):
-            queue = hotqueue.HotQueue(keyword, host=self.host,
-                                       port=self.port, db=self.database,
-                                       serializer=self.asjson)
+            queue = hotqueue.HotQueue(keyword, serializer=self.asjson,
+                                      connection_pool=self.redispool)
 
             kwargs[keyword] = queue
             rv = callback(*args, **kwargs)
