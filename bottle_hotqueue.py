@@ -16,7 +16,7 @@ class HotQueuePlugin(object):
         if asjson:
             self.asjson = json
         else:
-            self.asjson = None
+            self.asjson = asjson or None
         hotqueue.key_for_name = lambda x: ''.join([prefix, ":", x])
         # Set up redis connection pool
         self.redispool = redis.ConnectionPool(host=host,
