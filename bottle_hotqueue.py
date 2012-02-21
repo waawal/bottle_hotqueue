@@ -18,10 +18,10 @@ class HotQueuePlugin(object):
         else:
             self.asjson = asjson or None
         hotqueue.key_for_name = lambda x: ''.join([prefix, ":", x])
-        # Set up redis connection pool
-        self.redispool = redis.ConnectionPool(host=host,
-                                               port=port, db=database)
-
+        self.host = host
+        self.port = port
+        self.database = database
+        
     def setup(self, app):
         for other in app.plugins:
             if not isinstance(other, HotQueuePlugin):
@@ -29,6 +29,9 @@ class HotQueuePlugin(object):
             if other.keyword == self.keyword:
                 raise PluginError("Found another hotqueue plugin with "\
                         "conflicting settings (non-unique keyword).")
+            self.redispool = redis.ConnectionPool(host=self.host,
+                                               port=self.port, db=self.database)
+
 
     def apply(self, callback, route):
         conf = route.config.get(self.keyword) or {}
@@ -43,7 +46,6 @@ class HotQueuePlugin(object):
         def wrapper(*args, **kwargs):
             queue = hotqueue.HotQueue(keyword, serializer=self.asjson,
                                       connection_pool=self.redispool)
-
             kwargs[keyword] = queue
             rv = callback(*args, **kwargs)
             return rv
