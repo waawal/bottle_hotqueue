@@ -1,4 +1,5 @@
 import inspect
+from functools import wraps
 try:
     import simplejson as json
 except ImportError:
@@ -43,12 +44,12 @@ class HotQueuePlugin(object):
         if keyword not in args:
             return callback
 
+        @wraps(callback)
         def wrapper(*args, **kwargs):
             queue = hotqueue.HotQueue(keyword, serializer=self.asjson,
                                       connection_pool=self.redispool)
             kwargs[keyword] = queue
-            rv = callback(*args, **kwargs)
-            return rv
+            return callback(*args, **kwargs)
         return wrapper
 
 Plugin = HotQueuePlugin
