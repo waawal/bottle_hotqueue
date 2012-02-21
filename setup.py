@@ -11,7 +11,7 @@ setup(
     name = 'bottle-hotqueue',
     version = '0.1.2',
     url = 'https://github.com/waawal/bottle_hotqueue',
-    description = 'FIFO Queue for Bottle built upon redis',
+    description = 'FIFO Queue for Bottle built upon HotQueue',
     author = 'Daniel Waardal',
     author_email = 'daniel.waardal@vodial.com',
     license = 'MIT',
@@ -21,8 +21,7 @@ setup(
     ],
     requires = [
         'bottle (>=0.9)',
-        'redis (>=2.0)',
-        'hotqueue',
+        'hotqueue'
     ],
     classifiers = [
         'Environment :: Web Environment',
