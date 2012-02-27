@@ -9,11 +9,11 @@ except ImportError:
 
 setup(
     name = 'bottle-hotqueue',
-    version = '0.1.2',
+    version = '0.1.3',
     url = 'https://github.com/waawal/bottle_hotqueue',
     description = 'FIFO Queue for Bottle built upon HotQueue',
-    author = 'Daniel Waardal',
-    author_email = 'daniel.waardal@vodial.com',
+    author = 'Waawal',
+    author_email = 'waawal@boom.ws',
     license = 'MIT',
     platforms = 'any',
     py_modules = [
