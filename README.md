@@ -16,7 +16,7 @@ _[HotQueue](http://richardhenry.github.com/hotqueue/) is a Python library that a
 
 ### Dependencies:
 
-    bottle, hotqueue
+``bottle`` and ``hotqueue``
 
 ## Getting Started
 
