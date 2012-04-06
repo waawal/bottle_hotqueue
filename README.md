@@ -1,4 +1,4 @@
-# bottle_hotqueue
+# bottlehotqueue
 
 _FIFO message queue_ plugin for _bottle.py_ based on _HotQueue_
 
@@ -8,11 +8,11 @@ _[HotQueue](http://richardhenry.github.com/hotqueue/) is a Python library that a
 
 ## Installation
 
-    $ sudo pip install bottle-hotqueue
+    $ pip install bottle-hotqueue
 
 ### From source:
 
-    $ sudo python setup.py install
+    $ python setup.py install
 
 ### Dependencies:
 
@@ -24,15 +24,15 @@ _[HotQueue](http://richardhenry.github.com/hotqueue/) is a Python library that a
 
 ```python
 import bottle
-from bottle_hotqueue import HotQueuePlugin
+from bottlehotqueue import Plugin
 
 
 app = bottle.Bottle()
-hotqueue = HotQueuePlugin(keyword="myhotqueue")
+hotqueue = Plugin(keyword="myhotqueue")
 app.install(hotqueue)
 
 
-@app.get('/add/:value', myhotqueue={'queue': 'myqueue'})
+@app.post('/add/:value', myhotqueue={'queue': 'myqueue'})
 def send_message(value, myqueue):
     """ This will put an item in the queue hotqueue:myqueue.
     """
@@ -52,10 +52,10 @@ def get_message(myqueue):
 bottle.run(app, host='', port=8080)
 ```
 
-The plugin will use json (or simplejson if available) as the standard serializer. This behaviour can be reverted by passing asjson=False when instantiating the plugin. It will then conform to the standard HotQueue way of serializing objects by using pickle (or cpickle if available).
+The plugin will use json (or simplejson if available) as the standard serializer. This behaviour can be reverted to match the default implementation by passing asjson=False when instantiating the plugin. It will then conform to the standard HotQueue way of serializing objects by using pickle (or cpickle if available).
 
 ```python
-hotqueue = HotQueuePlugin(keyword="myhotqueue", asjson=False)
+hotqueue = Plugin(keyword="myhotqueue", asjson=False)
 ```
 
 ### Writing a simple consumer
