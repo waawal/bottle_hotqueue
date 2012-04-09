@@ -32,14 +32,14 @@ hotqueue = Plugin(keyword="myhotqueue")
 app.install(hotqueue)
 
 
-@app.post('/add/:value', myhotqueue={'queue': 'myqueue'})
+@app.post('/put/:value', myhotqueue={'queue': 'myqueue'})
 def send_message(value, myqueue):
     """ This will put an item in the queue hotqueue:myqueue.
     """
     return myqueue.put(value)
 
 
-@app.get('/', myhotqueue={'queue': 'myqueue'})
+@app.get('/get/', myhotqueue={'queue': 'myqueue'})
 def get_message(myqueue):
     """ We will now try to get a item from hotqueue:myqueue.
         if the queue is empty, we instead raise a 404.
