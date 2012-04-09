@@ -11,8 +11,9 @@ with open('README.md') as file:
     long_description = file.read()
 
 setup(
+    data_files = [('', ['README.md'])],
     name = 'bottle-hotqueue',
-    version = '0.2.0',
+    version = '0.2.3',
     url = 'https://github.com/waawal/bottle_hotqueue',
     description = 'FIFO Queue for Bottle built upon HotQueue',
     long_description = long_description,

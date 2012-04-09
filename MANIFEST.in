@@ -1,0 +1,3 @@
+include bottlehotqueue.py
+include setup.py
+include README.md
