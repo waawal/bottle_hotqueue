@@ -2,7 +2,7 @@ import unittest
 import os
 import bottle
 import hotqueue
-from bottle_hotqueue import Plugin
+from bottlehotqueue import Plugin
 
 class HotQueueTest(unittest.TestCase):
     def setUp(self):
