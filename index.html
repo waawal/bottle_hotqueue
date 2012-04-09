@@ -1,0 +1,129 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>bottle-hotqueue by waawal</title>
+    
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>bottle-hotqueue</h1>
+        <p>Redis Message Queue for bottle.py Built on HotQueue.</p>
+        <p class="view"><a href="https://github.com/waawal/bottle_hotqueue">View the Project on GitHub <small>waawal/bottle_hotqueue</small></a></p>
+        <ul>
+          <li><a href="https://github.com/waawal/bottle_hotqueue/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/waawal/bottle_hotqueue/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/waawal/bottle_hotqueue">Fork On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h1>bottlehotqueue</h1>
+
+<p><em><a href="http://bottlepy.org">bottle.py</a> is a fast and simple micro-framework for python web-applications.</em></p>
+
+<p><em><a href="http://richardhenry.github.com/hotqueue/">HotQueue</a> is a Python library that allows you to use Redis as a message queue within your Python programs.</em></p>
+
+<h2>Installation</h2>
+
+<pre><code>$ pip install bottle-hotqueue
+</code></pre>
+
+<h3>From source:</h3>
+
+<pre><code>$ python setup.py install
+</code></pre>
+
+<h3>Dependencies:</h3>
+
+<p><code>bottle</code> and <code>hotqueue</code></p>
+
+<h2>Getting Started</h2>
+
+<h3>Importing and using the plugin in Bottle</h3>
+
+<div class="highlight">
+<pre><span class="kn">import</span> <span class="nn">bottle</span>
+<span class="kn">from</span> <span class="nn">bottlehotqueue</span> <span class="kn">import</span> <span class="n">Plugin</span>
+
+
+<span class="n">app</span> <span class="o">=</span> <span class="n">bottle</span><span class="o">.</span><span class="n">Bottle</span><span class="p">()</span>
+<span class="n">hotqueue</span> <span class="o">=</span> <span class="n">Plugin</span><span class="p">(</span><span class="n">keyword</span><span class="o">=</span><span class="s">"myhotqueue"</span><span class="p">)</span>
+<span class="n">app</span><span class="o">.</span><span class="n">install</span><span class="p">(</span><span class="n">hotqueue</span><span class="p">)</span>
+
+
+<span class="nd">@app.post</span><span class="p">(</span><span class="s">'/put/:value'</span><span class="p">,</span> <span class="n">myhotqueue</span><span class="o">=</span><span class="p">{</span><span class="s">'queue'</span><span class="p">:</span> <span class="s">'myqueue'</span><span class="p">})</span>
+<span class="k">def</span> <span class="nf">send_message</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">myqueue</span><span class="p">):</span>
+    <span class="sd">""" This will put an item in the queue hotqueue:myqueue.</span>
+<span class="sd">    """</span>
+    <span class="k">return</span> <span class="n">myqueue</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+
+
+<span class="nd">@app.get</span><span class="p">(</span><span class="s">'/get/'</span><span class="p">,</span> <span class="n">myhotqueue</span><span class="o">=</span><span class="p">{</span><span class="s">'queue'</span><span class="p">:</span> <span class="s">'myqueue'</span><span class="p">})</span>
+<span class="k">def</span> <span class="nf">get_message</span><span class="p">(</span><span class="n">myqueue</span><span class="p">):</span>
+    <span class="sd">""" We will now try to get a item from hotqueue:myqueue.</span>
+<span class="sd">        if the queue is empty, we instead raise a 404.</span>
+<span class="sd">    """</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">myqueue</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">result</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">bottle</span><span class="o">.</span><span class="n">HTTPError</span><span class="p">(</span><span class="mi">404</span><span class="p">,</span> <span class="s">"Queue is Empty"</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">result</span>
+
+<span class="n">bottle</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="n">host</span><span class="o">=</span><span class="s">''</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">8080</span><span class="p">)</span>
+</pre>
+</div>
+
+
+<p>The plugin will use json (or simplejson if available) as the standard serializer. This behaviour can be reverted to match the default implementation by passing asjson=False when instantiating the plugin. It will then conform to the standard HotQueue way of serializing objects by using pickle (or cpickle if available).</p>
+
+<div class="highlight">
+<pre><span class="n">hotqueue</span> <span class="o">=</span> <span class="n">Plugin</span><span class="p">(</span><span class="n">keyword</span><span class="o">=</span><span class="s">"myhotqueue"</span><span class="p">,</span> <span class="n">asjson</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+</pre>
+</div>
+
+
+<h3>Writing a simple consumer</h3>
+
+<div class="highlight">
+<pre><span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">from</span> <span class="nn">hotqueue</span> <span class="kn">import</span> <span class="n">HotQueue</span>
+
+
+<span class="n">queue</span> <span class="o">=</span> <span class="n">HotQueue</span><span class="p">(</span><span class="s">"myqueue"</span><span class="p">,</span> <span class="n">host</span><span class="o">=</span><span class="s">"localhost"</span><span class="p">,</span> <span class="n">serializer</span><span class="o">=</span><span class="n">json</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">queue</span><span class="o">.</span><span class="n">consume</span><span class="p">():</span>
+    <span class="k">print</span> <span class="n">item</span>
+
+</pre>
+</div>
+
+
+<p>More on HotQueue: <a href="http://richardhenry.github.com/hotqueue/">http://richardhenry.github.com/hotqueue/</a></p>
+
+<h3>License</h3>
+
+<p>MIT</p>
+
+<h3>Github links</h3>
+
+<ul>
+<li><a href="https://github.com/defnull/bottle">https://github.com/defnull/bottle</a></li>
+<li><a href="https://github.com/richardhenry/hotqueue">https://github.com/richardhenry/hotqueue</a></li>
+</ul>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/waawal">waawal</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+    
+  </body>
+</html>
