@@ -6,5 +6,9 @@ python:
 #  - "3.2"
 #  - "pypy"
 
+install:
+  - pip install bottle --use-mirrors
+  - pip install hotqueue --use-mirrors
+
 # command to run tests
 script: nosetests
