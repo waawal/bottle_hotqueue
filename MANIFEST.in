@@ -1,1 +1,1 @@
-include bottlehotqueue.py setup.py README.md
+include bottlehotqueue.py setup.py README.rst

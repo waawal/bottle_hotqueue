@@ -7,11 +7,11 @@ try:
 except ImportError:
     from distutils.command.build_py import build_py
 
-with open('README.md') as file:
+with open('README.rst') as file:
     long_description = file.read()
 
 setup(
-    data_files = [('', ['README.md'])],
+    data_files = [('', ['README.rst'])],
     name = 'bottle-hotqueue',
     version = '0.2.3',
     url = 'https://github.com/waawal/bottle_hotqueue',
