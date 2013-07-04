@@ -13,7 +13,7 @@ with open('README.rst') as file:
 setup(
     data_files = [('', ['README.rst'])],
     name = 'bottle-hotqueue',
-    version = '0.2.4',
+    version = '0.2.5',
     url = 'https://github.com/waawal/bottle_hotqueue',
     description = 'FIFO Queue for Bottle built upon HotQueue',
     long_description = long_description,
