@@ -14,7 +14,7 @@ class HotQueuePlugin(object):
     def __init__(self, host='localhost', port=6379, database=0,
                  keyword='queue', asjson=True, prefix="hotqueue"):
         self.keyword = keyword
-        if asjson:
+        if asjson is True:
             self.asjson = json
         else:
             self.asjson = asjson or None
