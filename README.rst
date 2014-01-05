@@ -27,9 +27,10 @@ Dependencies
 Getting Started
 ---------------
 
-Importing and using the plugin in Bottle
+Importing and using the plugin with Bottle
 ****************************************
-::
+
+.. code:: python
 
     import bottle
     from bottlehotqueue import Plugin
@@ -62,13 +63,14 @@ Importing and using the plugin in Bottle
 
 The plugin will use `json` (or simplejson if available) as the standard serializer. This behaviour can be reverted to match the default implementation by passing asjson=False when instantiating the plugin. It will then conform to the standard HotQueue way of serializing objects by using pickle (or cpickle if available).
 
-::
+.. code:: python
 
     hotqueue = Plugin(keyword="myhotqueue", asjson=False)
 
 Writing a simple consumer
 *************************
-::
+
+.. code:: python
 
     import json
     from hotqueue import HotQueue
