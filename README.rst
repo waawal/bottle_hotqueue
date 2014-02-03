@@ -91,3 +91,9 @@ MIT
 Github links
   * https://github.com/defnull/bottle
   * https://github.com/richardhenry/hotqueue
+
+
+.. image:: https://d2weczhvl823v0.cloudfront.net/waawal/bottle_hotqueue/trend.png
+   :alt: Bitdeli badge
+   :target: https://bitdeli.com/free
+
